@@ -1,0 +1,50 @@
+{
+  "_from": "webix",
+  "_id": "webix@7.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-vw+eREkn9Z3Z8dJ5I84AdEaYAQXXWO/GW6ulML8D9gBBtQj1aGkzIFdEujEHY80ipFG0nKQU5/+f1wylGw5XvQ==",
+  "_location": "/webix",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "webix",
+    "name": "webix",
+    "escapedName": "webix",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/webix/-/webix-7.0.0.tgz",
+  "_shasum": "272d071716ab7fc68fe7852997309afc34fb5330",
+  "_spec": "webix",
+  "_where": "C:\\xampp\\htdocs\\home\\pixxels\\sion",
+  "author": {
+    "name": "XB Software"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Webix UI",
+  "keywords": [
+    "webix",
+    "ui",
+    "tree",
+    "datatable",
+    "list",
+    "chart",
+    "form",
+    "grid"
+  ],
+  "license": "SEE LICENSE IN license.text",
+  "main": "webix.js",
+  "name": "webix",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "types": "types/webix.d.ts",
+  "version": "7.0.0"
+}
