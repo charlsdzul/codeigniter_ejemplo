@@ -82,5 +82,11 @@ class App extends CI_Controller {
 		 redirect('app/login');
 	}
 
+	public function prueba(){
+		$this->load->view('components/header');
+		$this->load->view('prueba_body');
+	}
+
+
      
 }

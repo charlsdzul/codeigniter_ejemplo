@@ -8,7 +8,8 @@
                         { id:"2",value:"Clientes", href:'clientes'},
                         { id:"3",value:"Alta Cliente",href:'clientesAlta'},
                         { id:"4",value:"Login",href:'login'},
-                        { id:"5",value:"Logout",href:'logout'}
+                        { id:"5",value:"Logout",href:'logout'},
+                        { id:"5",value:"Prueba",href:'prueba'}
                     ],
                     type:{
                         subsign:true
