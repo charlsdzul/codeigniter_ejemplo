@@ -212,7 +212,7 @@ var form1 = {
                         {
                           view:`accordion`,
                           name:`etapas_accordion-${index}`,
-                          id:`etapas_accordion-1`,
+                          id:`etapas_accordion-${index}`,
                           multi:true,
                           collapsed:true,
                           css:{"background":"#ccc !important"},
@@ -230,31 +230,31 @@ var form1 = {
                                         rows:[
                                         {
                                           cols:[
-                                            { view:"text", label:"Planeado", name:`etapa-${index}_pleaneado`},
-                                            { view:"text", label:"Casas", name:`etapa-${index}_pleaneado_casas`},
-                                            { view:"text", label:"Deptos", name:`etapa-${index}_pleaneado_deptos`},
-                                            { view:"text", label:"Terrenos", name:`etapa-${index}_pleaneado_terrenos`}
+                                            { view:"text", label:"Planeado", name:`etapa${index}_pleaneado`},
+                                            { view:"text", label:"Casas", name:`etapa${index}_pleaneado_casas`},
+                                            { view:"text", label:"Deptos", name:`etapa${index}_pleaneado_deptos`},
+                                            { view:"text", label:"Terrenos", name:`etapa${index}_pleaneado_terrenos`}
                                           ]
                                         },
                                         {
                                           cols:[
-                                            { view:"text", label:"Vendido", name:`etapa-${index}_vendido`},
-                                            { view:"text", label:"Casas", name:`etapa-${index}_vendido_casas`},
-                                            { view:"text", label:"Deptos", name:`etapa-${index}_vendido_deptos`},
-                                            { view:"text", label:"Terrenos", name:`etapa-${index}_vendido_terrenos`}
+                                            { view:"text", label:"Vendido", name:`etapa${index}_vendido`},
+                                            { view:"text", label:"Casas", name:`etapa${index}_vendido_casas`},
+                                            { view:"text", label:"Deptos", name:`etapa${index}_vendido_deptos`},
+                                            { view:"text", label:"Terrenos", name:`etapa${index}_vendido_terrenos`}
                                           ]
                                         },
                                         {
                                           cols:[
-                                            { view:"text", label:"En Venta", name:`etapa-${index}_venta`},
-                                            { view:"text", label:"Casas", name:`etapa-${index}_venta_casas`},
-                                            { view:"text", label:"Deptos", name:`etapa-${index}_venta_deptos`},
-                                            { view:"text", label:"Terrenos", name:`etapa-${index}_ventas_terrenos`}
+                                            { view:"text", label:"En Venta", name:`etapa${index}_venta`},
+                                            { view:"text", label:"Casas", name:`etapa${index}_venta_casas`},
+                                            { view:"text", label:"Deptos", name:`etapa${index}_venta_deptos`},
+                                            { view:"text", label:"Terrenos", name:`etapa${index}_venta_terrenos`}
                                           ]
                                         },
                                         {
                                           cols:[
-                                            {  view:"select",label:"Estatus de la etapa", name:`etapa-${index}_estatus`,value:1, labelWidth:150,options:[
+                                            {  view:"select",label:"Estatus de la etapa", name:`etapa${index}_estatus`,value:1, labelWidth:150,options:[
                                               { "id":1, "value":"Por iniciar" },
                                               { "id":2, "value":"En Construcción" },
                                               { "id":3, "value":"Construído" },
@@ -262,7 +262,7 @@ var form1 = {
                                               ] 
                                             },
                                             {
-                                                view:"select",label:"Tipo de fraccionamiento", name:`etapa-1_tipo`, labelWidth:175, value:1, options:[
+                                                view:"select",label:"Tipo de fraccionamiento", name:`etapa${index}_tipo`, labelWidth:175, value:1, options:[
                                               { "id":1, "value":"Privado" },
                                               { "id":2, "value":"Semiprivado" },
                                               { "id":3, "value":"Abierto" },
@@ -324,31 +324,31 @@ var form_etapas = {
                                         rows:[
                                         {
                                           cols:[
-                                            { view:"text", label:"Planeado", name:`etapa-1_pleaneado`},
-                                            { view:"text", label:"Casas", name:`etapa-1_pleaneado_casas`},
-                                            { view:"text", label:"Deptos", name:`etapa-1_pleaneado_deptos`},
-                                            { view:"text", label:"Terrenos", name:`etapa-1_pleaneado_terrenos`}
+                                            { view:"text", label:"Planeado", name:`etapa1_planeado`},
+                                            { view:"text", label:"Casas", name:`etapa1_planeado_casas`},
+                                            { view:"text", label:"Deptos", name:`etapa1_planeado_deptos`},
+                                            { view:"text", label:"Terrenos", name:`etapa1_planeado_terrenos`}
                                           ]
                                         },
                                         {
                                           cols:[
-                                            { view:"text", label:"Vendido", name:`etapa-1_vendido`},
-                                            { view:"text", label:"Casas", name:`etapa-1_vendido_casas`},
-                                            { view:"text", label:"Deptos", name:`etapa-1_vendido_deptos`},
-                                            { view:"text", label:"Terrenos", name:`etapa-1_vendido_terrenos`}
+                                            { view:"text", label:"Vendido", name:`etapa1_vendido`},
+                                            { view:"text", label:"Casas", name:`etapa1_vendido_casas`},
+                                            { view:"text", label:"Deptos", name:`etapa1_vendido_deptos`},
+                                            { view:"text", label:"Terrenos", name:`etapa1_vendido_terrenos`}
                                           ]
                                         },
                                         {
                                           cols:[
-                                            { view:"text", label:"En Venta", name:`etapa-1_venta`},
-                                            { view:"text", label:"Casas", name:`etapa-1_venta_casas`},
-                                            { view:"text", label:"Deptos", name:`etapa-1_venta_deptos`},
-                                            { view:"text", label:"Terrenos", name:`etapa-1_ventas_terrenos`}
+                                            { view:"text", label:"En Venta", name:`etapa1_venta`},
+                                            { view:"text", label:"Casas", name:`etapa1_venta_casas`},
+                                            { view:"text", label:"Deptos", name:`etapa1_venta_deptos`},
+                                            { view:"text", label:"Terrenos", name:`etapa1_venta_terrenos`}
                                           ]
                                         },
                                         {
                                           cols:[
-                                            {  view:"select",label:"Estatus de la etapa", name:`etapa-1_estatus`,value:1, labelWidth:150,options:[
+                                            {  view:"select",label:"Estatus de la etapa", name:`etapa1_estatus`,value:1, labelWidth:150,options:[
                                               { "id":1, "value":"Por iniciar" },
                                               { "id":2, "value":"En Construcción" },
                                               { "id":3, "value":"Construído" },
@@ -356,7 +356,7 @@ var form_etapas = {
                                               ] 
                                             },
                                             {
-                                                view:"select",label:"Tipo de fraccionamiento", name:`etapa-1_tipo`, labelWidth:175, value:1, options:[
+                                                view:"select",label:"Tipo de fraccionamiento", name:`etapa1_tipo`, labelWidth:175, value:1, options:[
                                               { "id":1, "value":"Privado" },
                                               { "id":2, "value":"Semiprivado" },
                                               { "id":3, "value":"Abierto" },
@@ -393,6 +393,10 @@ var button_submit={
 }
 
 
+
+
+
+
 function guardarProyecto(){
 
   //Obtiene valores del formulario 1. Es necesario que los inputs tengan el atributo 'name'
@@ -400,7 +404,7 @@ function guardarProyecto(){
   console.log(form1_datos)
 
   var numero_etapas = 0;
-  var etapas_datos = []; //Array para almacenar arrays de cada etapa
+  var etapas_datos = {}; //Array para almacenar arrays de cada etapa
 
   // Obtiene los valores de cada form/acordion de cada etapa
   for (let index = 0; index<10; index++) {
@@ -409,7 +413,7 @@ function guardarProyecto(){
     if(form_etapa){
       form_etapa = $$(`form_etapas-${index+1}`).getValues();
       console.log(form_etapa);
-      etapas_datos[numero_etapas] = form_etapa        
+      etapas_datos[`etapa_${numero_etapas+1}`] = form_etapa        
       numero_etapas++; //Cuenta el número de etapas (dato para enviar a servidor)
     } 
 
@@ -423,8 +427,8 @@ function guardarProyecto(){
 
            console.dir(res)
             //var dato_cliente;
-
-        /*    res.forEach(cliente => {
+/*
+            res.forEach(cliente => {
                 dato_cliente = {
                 id: cliente[0], 
                 usuario: cliente[1] + " " + cliente[2], 
@@ -434,11 +438,10 @@ function guardarProyecto(){
 
                 $$('tablaDatos').add(dato_cliente)                   
             });
-
 */
 
-        });
 
+        });
 
 }
 

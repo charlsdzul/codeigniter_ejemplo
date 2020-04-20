@@ -103,14 +103,12 @@ class PruebaMod extends CI_Model {
     function registroDesarrollo($datos_desarrollo){ 
 
         $datos_desarrollo=json_decode($datos_desarrollo); //Recibe un objeto (como string)
-        //$this->db->set('id',$datos_desarrollo->0);
+        //var_dump($datos_desarrollo);
         $this->db->set('ciudad',$datos_desarrollo->ciudad);
         $this->db->set('fecha',$datos_desarrollo->fecha);
         $this->db->set('hora_llegada',$datos_desarrollo->hora_llegada);
         $this->db->set('hora_salida',$datos_desarrollo->hora_salida);
         $this->db->set('vivienda_cotizada',$datos_desarrollo->vivienda_cotizada);
-
-
         $this->db->set('vendedor',$datos_desarrollo->vendedor);
         $this->db->set('auditor',$datos_desarrollo->auditor);
         $this->db->set('auditor_edad',$datos_desarrollo->auditor_edad);
@@ -123,47 +121,51 @@ class PruebaMod extends CI_Model {
         $this->db->set('desarrollo_numero_exterior',$datos_desarrollo->desarrollo_numero_exterior);
         $this->db->set('desarrollo_numero_interior',$datos_desarrollo->desarrollo_numero_interior);
         $this->db->set('desarrollo_cp',$datos_desarrollo->desarrollo_cp);
-
         $this->db->set('desarrollo_plan_maestro',$datos_desarrollo->desarrollo_plan_maestro);
-
         $this->db->set('desarrollo_plan_maestro_imagen',$datos_desarrollo->desarrollo_plan_maestro_imagen);
-
         $this->db->set('desarrollo_zona',$datos_desarrollo->desarrollo_zona);
-
         $this->db->set('desarrollo_estatus_desarrollo',$datos_desarrollo->desarrollo_estatus_desarrollo);
-        
         $this->db->set('status',0);
         //$this->db->set('etapas_seleccionadas',$datos_desarrollo->desarrollo_etapas_planeadas);
-
-
-
-        
-        
-        
-        
         $this->db->insert('cat_registro_desarrollos');   
-
-       // $datos_desarrollo = json_encode($datos_desarrollo);
-       // $datos_desarrollo = str_replace('\"', '"', $datos_desarrollo );
-       // $datos_desarrollo = json_decode($datos_desarrollo);
-       // echo $datos_desarrollo['ciudad'];
-
-        //var_dump($datos_desarrollo);
-        
-        /*
-        $this->db->set('name', $_POST['name']);
-        $this->db->set('last', $_POST['last']);
-        $this->db->set('estatus', $_POST['estatus']);
-        $this->db->set('rol', $_POST['rol']);
-        $this->db->insert('clientes');        
-
-        return '00';
-
-        */
+        $insert_id = $this->db->insert_id();
+        return  $insert_id;
     }
 
+    function registroEtapas($datos_desarrollo_etapas,$numero_etapas){ 
+        $datos_desarrollo_etapas=json_decode($datos_desarrollo_etapas); //Recibe un objeto (como string)
+        //var_dump($datos_desarrollo_etapas);
+        //var_dump($datos_desarrollo_etapas);            
+              $this->db->set('planeado',$datos_desarrollo_etapas->etapa_1->etapa1_planeado);        
+        $this->db->set('planeado_casas',$datos_desarrollo_etapas->etapa_1->etapa1_planeado_casas);
+        $this->db->set('planeado_deptos',$datos_desarrollo_etapas->etapa_1->etapa1_planeado_deptos);
+        $this->db->set('planeado_terrenos',$datos_desarrollo_etapas->etapa_1->etapa1_planeado_terrenos);
+        $this->db->set('sta',0);
+        
+        $this->db->set('vendido',$datos_desarrollo_etapas->etapa_1->etapa1_vendido);
+        $this->db->set('vendido_casas',$datos_desarrollo_etapas->etapa_1->etapa1_vendido_terrenos);
+        $this->db->set('vendido_deptops',$datos_desarrollo_etapas->etapa_1->etapa1_vendido_terrenos);
+        $this->db->set('vendido_terrenos',$datos_desarrollo_etapas->etapa_1->etapa1_vendido_terrenos);
+        $this->db->set('venta',$datos_desarrollo_etapas->etapa_1->etapa1_venta);
+        $this->db->set('venta_casas',$datos_desarrollo_etapas->etapa_1->etapa1_venta_casas);
+        $this->db->set('venta_deptos',$datos_desarrollo_etapas->etapa_1->etapa1_venta_deptos);
+        $this->db->set('venta_terrenos',$datos_desarrollo_etapas->etapa_1->etapa1_venta_terrenos);        
+        $this->db->set('etapa_estatus',$datos_desarrollo_etapas->etapa_1->etapa1_estatus);
+        $this->db->set('etapa_tipo',$datos_desarrollo_etapas->etapa_1->etapa1_tipo);
+        $this->db->insert('cat_etapas'); 
+        $insert_id = $this->db->insert_id();
+        return  $insert_id;
+    }
 
+    function registrarEtapasDesarrollo($id_insert_desarollo,$id_insert_etapas){
+            $etapas = array(
+                'desarrollo_etapa_1' => $id_insert_etapas
+            );
 
+            $this->db->set($etapas);
+            $this->db->where('id',$id_insert_desarollo);
+            $this->db->update('cat_registro_desarrollos');
+    }
 }
 
 ?>

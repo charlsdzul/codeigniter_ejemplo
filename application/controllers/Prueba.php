@@ -62,19 +62,17 @@ class Prueba extends CI_Controller {
     public function saveDesarrollo(){
         $datos_desarrollo = $_POST['form1_datos'];
         $datos_desarrollo_etapas = $_POST['etapas_datos'];
+        $numero_etapas = $_POST['numero_etapas'];
 
         $this->load->model('pruebamod');
-        $data = $this->pruebamod->registroDesarrollo($datos_desarrollo); 
 
-        //var_dump($form1_datos);
-        //var_dump($etapas_datos);
+        $id_insert_desarollo= $this->pruebamod->registroDesarrollo($datos_desarrollo);      
+        $id_insert_etapas = $this->pruebamod->registroEtapas($datos_desarrollo_etapas,$numero_etapas);
+        $id_insert_desarollo= $this->pruebamod->registrarEtapasDesarrollo($id_insert_desarollo,$id_insert_etapas);  
 
-        /*
-        $this->load->model('pruebamod');
-        $data = $this->pruebamod->getEstado($desarrollo_ciudad);  
-        return $data;    
-        
-        */
+
+    
+
     }
 
 }
