@@ -1,108 +1,71 @@
 <script>
 
-var button = {
-  view:"button", 
-    id:"my_button", 
-    value:"Button", 
-    css:"webix_primary", 
-    inputWidth:100,
-    click: registroProyecto
-}
+
+
 
 var form1 = {
   view:"form", 
-  name:'form1',
-  id:'form1',
+  name:`form1`,
+  id:`form1`,
   elements: 
   [
     { 
       rows:
       [ 
-        { template:"Información General", type:"section" },
+        { template:"<b>Información General</b>", type:"section" },
         {
           cols:
           [ 
-            { 
-              view:"select",label:"Ciudad",     value:1, options:[
-              { "id":1, "value":"Master" },
-              { "id":2, "value":"Release" }
-              ] 
+            { width:300,
+              view:"select", 
+              name:`ciudad`,
+              label:"Ciudad",     
+              value:1, 
+              options:"../prueba/getciudades"  //URL de controlador. GET no necesita enviar parametro
             },
-            { view:"datepicker", label:"Fecha", value:"" },
-            { view:"datepicker", label:"Hora llegada", type:"time",stringResult:true },
-            { view:"datepicker", label:"Hora Salida", type:"time",stringResult:true },
+            { view:"datepicker",name:`fecha`, label:"Fecha", width:200, labelWidth:50},
+            { view:"datepicker", name:`hora_llegada`,label:"Hora llegada", width:200, labelWidth:90,type:"time",stringResult:true },
+            { view:"datepicker", name:`hora_salida`,label:"Hora Salida", width:200,labelWidth:90,type:"time",stringResult:true },
           ]
         },
         {
           cols:
           [ 
-            { 
-              view:"select",label:"Auditor",     value:1, options:[
-              { "id":1, "value":"Master" },
-              { "id":2, "value":"Release" }
-              ] 
-            },
-            { view:"text", label:"Edad", value:"" },
-            { 
-              view:"select",label:"Vendedor",     value:1, options:[
-              { "id":1, "value":"Master" },
-              { "id":2, "value":"Release" }
-              ] 
-            },
-          ]
-        },
-        {
-          cols:
-          [ 
-            {view:"text", label:"Vivienda Cotizada", value:"" }
+            {view:"text",name:`vivienda_cotizada`, label:"Vivienda Cotizada", labelWidth:120 },
+            {view:"text",label:"Vendedor", name:`vendedor` },
           ]         
         },
-        { template:"Información General del Desarrollo", type:"section" },
-
-
         {
           cols:
           [ 
-            { 
-              view:"select",label:"Nombre Comercial del Desarrollo",     value:1, options:[
-              { "id":1, "value":"Master" },
-              { "id":2, "value":"Release" }
-              ] 
-            },
-            { 
-              view:"select",label:"Empresa Desarrolladora",     value:1, options:[
-              { "id":1, "value":"Master" },
-              { "id":2, "value":"Release" }
-              ] 
-            },
+            { view:"text",label:"Auditor", name:`auditor`,},
+            { view:"text", label:"Edad (auditor)",name:`auditor_edad`, inputWidth:150, Width:100, labelWidth:100},
+            
           ]
         },
 
+        { template:"<b>Información General del Desarrollo</b>", type:"section" },
 
-        {
-          cols:
-          [ 
-            { view:"text",label:"Calle"},
-            { view:"text",label:"Exterior"},
-            { view:"text",label:"Interior"},          
-          ]
-        },
 
         {
           cols:
           [ 
             { 
-              view:"select",label:"Ciudad",     value:1, options:[
-              { "id":1, "value":"Master" },
-              { "id":2, "value":"Release" }
-              ] 
+              view:"select",
+              name:`desarrollo_nombre_comercial_desarrollo`,
+              label:"Nombre Comercial del Desarrollo",
+              labelWidth:225,
+              value:1, 
+              options:"../prueba/getdesarrollos" 
             },
             { 
-              view:"select",label:"Estado",     value:1, options:[
-              { "id":1, "value":"Master" },
-              { "id":2, "value":"Release" }
-              ] 
-            },       
+              view:"select",
+              name:`desarrollo_nombre_empresa_desarroladora`,
+              label:"Empresa Desarrolladora",    
+              labelWidth:175, 
+              value:1, 
+              options:"../prueba/getconstructoras" 
+            },
           ]
         },
 
@@ -110,45 +73,108 @@ var form1 = {
           cols:
           [ 
             { 
-              view:"select",label:"Colonia",     value:1, options:[
-              { "id":1, "value":"Master" },
-              { "id":2, "value":"Release" }
-              ] 
-            },
-            { 
-              view:"select",label:"CP",     value:1, options:[
-              { "id":1, "value":"Master" },
-              { "id":2, "value":"Release" }
-              ] 
-            },     
-            { 
-              view:"select",label:"Zona",     value:1, options:[
-              { "id":1, "value":"Master" },
-              { "id":2, "value":"Release" }
-              ] 
+              view:"select",name:`desarrollo_ciudad`, id:`desarrollo_ciudad`,label:"Ciudad",     value:1, options:"../prueba/getciudades",
+              on:{
+                onChange:function(){
+                  var desarrollo_ciudad = $$(`desarrollo_ciudad`).getValue()
+                  webix.ajax()
+                  .get("../prueba/getestado",{desarrollo_ciudad: desarrollo_ciudad})
+                  .then(function(data){
+                      let res = data.text()   
+                      $$(`desarrollo_estado`).setValue(res)
+                  }) 
+                }
+              }
             },  
+            { view:"text",name:`desarrollo_estado`, id:`desarrollo_estado`,label:"Estado", value:``, disabled:true }       ,
+            { 
+              view:"select",
+              name:`desarrollo_colonia`,
+              id:`desarrollo_colonia`,
+              label:"Colonia",
+              value:1, 
+              options: "../prueba/getColoniasSinaloa" ,
+              on:{
+                onChange:function(){
+
+                var desarrollo_colonia = $$(`desarrollo_colonia`).getValue()
+
+                  webix.ajax()
+                  .get("../prueba/getcp",{desarrollo_colonia: desarrollo_colonia})
+                  .then(function(data){
+                      let res = data.text()   
+                      console.log(res) 
+                      $$(`desarrollo_cp`).setValue(res)
+
+                  })
+                }
+              }             
+
+            },
           ]
         },
 
         {
           cols:
           [ 
+            { view:"text",name:`desarrollo_calle`, label:"Calle",width:400,},
+            { view:"text",name:`desarrollo_numero_exterior`,label:"Exterior",inputWidth:150},
+            { view:"text",name:`desarrollo_numero_interior`,label:"Interior",inputWidth:150}, 
             { 
-              view:"select",label:"Plan Maestro",     value:1, options:[
-              { "id":1, "value":"Master" },
-              { "id":2, "value":"Release" }
+              view:"select",              
+              name:`desarrollo_cp`,
+              id:`desarrollo_cp`,
+              label:"CP", 
+              labelWidth:50,   
+              value:`81476`, //Correspondiente a Col "1 de mayo " 
+              options:"../prueba/getcodigopostalsinaloa"  
+            }
+      
+          ]
+        },
+
+        {
+          cols:
+          [            
+            { 
+              view:"select",name:`desarrollo_plan_maestro`,label:"Plan Maestro",     value:1, options:[
+              { "id":1, "value":"SI" },
+              { "id":2, "value":"NO" }
               ] 
             },
             { 
               view:"uploader",
+              name:`desarrollo_plan_maestro_imagen`,
               id: "uploader_1",
               width:200,
               value:"Upload file",
+            },      
+          ]
+        },
+        {
+          cols:
+          [  
+            { view:"select",name:`desarrollo_zona`,label:"Zona",     value:1, options:"../prueba/getzonas" }, 
+            {
+              view:`select`,
+              name:`desarrollo_estatus_desarrollo`,
+              label:`Estatus del desarrollo`,
+              labelWidth:150,
+              options:[
+                { "id":1, "value":"Por iniciar" },
+                { "id":2, "value":"En Construcción" },
+                { "id":3, "value":"Construído" },
+                { "id":4, "value":"Terminado" }
+              ]
+              
             },
             { 
               view:"select",
+              name:`desarrollo_etapas_planeadas`,
               label:"Etapas Planeadas",    
-              name:'etapas_seleccionadas',
+              labelWidth:125,
+              width:250,
+              name:`etapas_seleccionadas`,
               value:1, 
               options:[
               { "id":1, "value":"1" },
@@ -164,117 +190,267 @@ var form1 = {
               ],
               on:{
                 onChange:function(etapas){
-                  var etapas_seleccionadasas = $$('form1').getValues().etapas_seleccionadas
-                  console.log(etapas_seleccionadasas); 
+                  var etapas_seleccionadas = $$(`form1`).getValues().etapas_seleccionadas
+                  var etapas_seleccionadas_2 = parseInt(etapas_seleccionadas) + 1
+                  console.log(etapas_seleccionadas_2)
 
-                  var form1 = $$('form1');
-                  var a = $$("my_win");
+                  var form_etapas = $$(`form_etapas`);
 
-                  if(a){
-                    $$(form1).removeView("etapas_accordion");
-                  }
-                 
-                  for (let index = 0; index < etapas_seleccionadasas; index++) {
+                  form_etapas.removeView(`etapas_accordion-1`);
+                  form_etapas.removeView(`etapas_accordion-2`);
+                  form_etapas.removeView(`etapas_accordion-3`);
+                  form_etapas.removeView(`etapas_accordion-4`);
+                  form_etapas.removeView(`etapas_accordion-5`);
+                  form_etapas.removeView(`etapas_accordion-6`);
+                  form_etapas.removeView(`etapas_accordion-7`);
+                  form_etapas.removeView(`etapas_accordion-8`);
+                  form_etapas.removeView(`etapas_accordion-9`);
+                  form_etapas.removeView(`etapas_accordion-10`);
 
-                    form1.addView(
-                      {
-                        view:"accordion",
-                        name:'etapas_accordion',
-                        id:'etapas_accordion',
-                        multi:true,
-                        collapsed:true,
-                        css:{"background":"#ccc !important"},
-                        rows:
-                          [                       
-                            {
-                              header:'Etapa 1', 
-                              body: {
-                              view:'form' ,
-                              elements:
-                              [
-                                {
-                                  rows:[
+                    for (let index = 1; index < (etapas_seleccionadas_2); index++) {
+                      form_etapas.addView(
+                        {
+                          view:`accordion`,
+                          name:`etapas_accordion-${index}`,
+                          id:`etapas_accordion-1`,
+                          multi:true,
+                          collapsed:true,
+                          css:{"background":"#ccc !important"},
+                          rows:
+                                [                       
                                   {
-                                    cols:[
-                                      { view:"text", label:"Planeado", value:""},
-                                      { view:"text", label:"Casas", value:""},
-                                      { view:"text", label:"Deptos", value:""},
-                                      { view:"text", label:"Terrenos", value:""}
-                                    ]
-                                  },
-                                  {
-                                    cols:[
-                                      { view:"text", label:"Vendido", value:""},
-                                      { view:"text", label:"Casas", value:""},
-                                      { view:"text", label:"Deptos", value:""},
-                                      { view:"text", label:"Terrenos", value:""}
-                                    ]
-                                  },
-                                  {
-                                    cols:[
-                                      { view:"text", label:"En Venta", value:""},
-                                      { view:"text", label:"Casas", value:""},
-                                      { view:"text", label:"Deptos", value:""},
-                                      { view:"text", label:"Terrenos", value:""}
-                                    ]
-                                  },
-                                  {
-                                    cols:[
-                                      {  view:"select",label:"Estatus de la etapa",     value:1, options:[
-                                        { "id":1, "value":"Por iniciar" },
-                                        { "id":2, "value":"En Construcción" },
-                                        { "id":2, "value":"Construído" },
-                                        { "id":2, "value":"Terminado" },
-                                        ] 
-                                      },
+                                    header:`Etapa ${index}`, 
+                                    body: {
+                                    view:`form`,
+                                    id:`form_etapas-${index}`,
+                                    name:`form_etapas-${index}`,
+                                    elements:
+                                    [
                                       {
-                                          view:"select",label:"Tipo de fraccionamiento",     value:1, options:[
-                                        { "id":1, "value":"Privado" },
-                                        { "id":2, "value":"Semiprivado" },
-                                        { "id":2, "value":"Abierto" },
-                                        { "id":2, "value":"Duplex" },
-                                        ] 
-                                      },
-
-
-                                      {}
+                                        rows:[
+                                        {
+                                          cols:[
+                                            { view:"text", label:"Planeado", name:`etapa-${index}_pleaneado`},
+                                            { view:"text", label:"Casas", name:`etapa-${index}_pleaneado_casas`},
+                                            { view:"text", label:"Deptos", name:`etapa-${index}_pleaneado_deptos`},
+                                            { view:"text", label:"Terrenos", name:`etapa-${index}_pleaneado_terrenos`}
+                                          ]
+                                        },
+                                        {
+                                          cols:[
+                                            { view:"text", label:"Vendido", name:`etapa-${index}_vendido`},
+                                            { view:"text", label:"Casas", name:`etapa-${index}_vendido_casas`},
+                                            { view:"text", label:"Deptos", name:`etapa-${index}_vendido_deptos`},
+                                            { view:"text", label:"Terrenos", name:`etapa-${index}_vendido_terrenos`}
+                                          ]
+                                        },
+                                        {
+                                          cols:[
+                                            { view:"text", label:"En Venta", name:`etapa-${index}_venta`},
+                                            { view:"text", label:"Casas", name:`etapa-${index}_venta_casas`},
+                                            { view:"text", label:"Deptos", name:`etapa-${index}_venta_deptos`},
+                                            { view:"text", label:"Terrenos", name:`etapa-${index}_ventas_terrenos`}
+                                          ]
+                                        },
+                                        {
+                                          cols:[
+                                            {  view:"select",label:"Estatus de la etapa", name:`etapa-${index}_estatus`,value:1, labelWidth:150,options:[
+                                              { "id":1, "value":"Por iniciar" },
+                                              { "id":2, "value":"En Construcción" },
+                                              { "id":3, "value":"Construído" },
+                                              { "id":4, "value":"Terminado" },
+                                              ] 
+                                            },
+                                            {
+                                                view:"select",label:"Tipo de fraccionamiento", name:`etapa-1_tipo`, labelWidth:175, value:1, options:[
+                                              { "id":1, "value":"Privado" },
+                                              { "id":2, "value":"Semiprivado" },
+                                              { "id":3, "value":"Abierto" },
+                                              { "id":4, "value":"Duplex" },
+                                              ] 
+                                            },
+                                            {}
+                                          ]
+                                        }
+                                      ]
+                                      }
                                     ]
+                                    } 
                                   }
-                                ]
-                                }
-                              ]
-                              } 
-                            }                 
-                          ]                  
+                                                  
+                                ]                  
 
-                      })
-                                        
-                  }
+            
+        
+            }
 
-                  
-                   
-
+                      )                      
+                    }
 
                 }
-              }
+              },
+           
             },                     
           ]
         },
-
-        {
-          view:'text',
-          label:'Estatus del desarrollo',
-          labelWidth:200
-        }
       ]
     }
   ]
 }
 
+var form_etapas = {
+  view:"form", 
+  name:`form_etapas`,
+  id:`form_etapas`, 
+  elements: [
+          {
+                          view:`accordion`,
+                          name:`etapas_accordion-1`,
+                          id:`etapas_accordion-1`,
+                          multi:true,
+                          collapsed:true,
+                          css:{"background":"#ccc !important"},
+                          rows:
+                                [                       
+                                  {
+                                    header:`Etapa 1`, 
+                                    body: {
+                                    view:`form`,
+                                    id:`form_etapas-1`,
+                                    name:`form_etapas-1`,
+                                    elements:
+                                    [
+                                      {
+                                        rows:[
+                                        {
+                                          cols:[
+                                            { view:"text", label:"Planeado", name:`etapa-1_pleaneado`},
+                                            { view:"text", label:"Casas", name:`etapa-1_pleaneado_casas`},
+                                            { view:"text", label:"Deptos", name:`etapa-1_pleaneado_deptos`},
+                                            { view:"text", label:"Terrenos", name:`etapa-1_pleaneado_terrenos`}
+                                          ]
+                                        },
+                                        {
+                                          cols:[
+                                            { view:"text", label:"Vendido", name:`etapa-1_vendido`},
+                                            { view:"text", label:"Casas", name:`etapa-1_vendido_casas`},
+                                            { view:"text", label:"Deptos", name:`etapa-1_vendido_deptos`},
+                                            { view:"text", label:"Terrenos", name:`etapa-1_vendido_terrenos`}
+                                          ]
+                                        },
+                                        {
+                                          cols:[
+                                            { view:"text", label:"En Venta", name:`etapa-1_venta`},
+                                            { view:"text", label:"Casas", name:`etapa-1_venta_casas`},
+                                            { view:"text", label:"Deptos", name:`etapa-1_venta_deptos`},
+                                            { view:"text", label:"Terrenos", name:`etapa-1_ventas_terrenos`}
+                                          ]
+                                        },
+                                        {
+                                          cols:[
+                                            {  view:"select",label:"Estatus de la etapa", name:`etapa-1_estatus`,value:1, labelWidth:150,options:[
+                                              { "id":1, "value":"Por iniciar" },
+                                              { "id":2, "value":"En Construcción" },
+                                              { "id":3, "value":"Construído" },
+                                              { "id":4, "value":"Terminado" },
+                                              ] 
+                                            },
+                                            {
+                                                view:"select",label:"Tipo de fraccionamiento", name:`etapa-1_tipo`, labelWidth:175, value:1, options:[
+                                              { "id":1, "value":"Privado" },
+                                              { "id":2, "value":"Semiprivado" },
+                                              { "id":3, "value":"Abierto" },
+                                              { "id":4, "value":"Duplex" },
+                                              ] 
+                                            },
+                                            {}
+                                          ]
+                                        }
+                                      ]
+                                      }
+                                    ]
+                                    } 
+                                  }
+                                                  
+                                ]                  
+
+            
+        
+          }
+  ]
+  
+}
 
 
+var button_submit={
+  view:"button", 
+    id:"button_submit", 
+    value:"Guardar", 
+    css:"webix_primary", 
+    inputWidth:100,
+    align:"center",
+    click: guardarProyecto
+}
 
 
+function guardarProyecto(){
+
+  //Obtiene valores del formulario 1. Es necesario que los inputs tengan el atributo 'name'
+  form1_datos = $$(`form1`).getValues();
+  console.log(form1_datos)
+
+  var numero_etapas = 0;
+  var etapas_datos = []; //Array para almacenar arrays de cada etapa
+
+  // Obtiene los valores de cada form/acordion de cada etapa
+  for (let index = 0; index<10; index++) {
+    form_etapa = $$(`form_etapas-${index+1}`)
+
+    if(form_etapa){
+      form_etapa = $$(`form_etapas-${index+1}`).getValues();
+      console.log(form_etapa);
+      etapas_datos[numero_etapas] = form_etapa        
+      numero_etapas++; //Cuenta el número de etapas (dato para enviar a servidor)
+    } 
+
+  } 
+
+  console.log(numero_etapas)
+
+
+  webix.ajax().post("../prueba/saveDesarrollo", { form1_datos:form1_datos, etapas_datos:etapas_datos,numero_etapas:numero_etapas }).then(function(data){
+           let res = JSON.parse(data.text())
+
+           console.dir(res)
+            //var dato_cliente;
+
+        /*    res.forEach(cliente => {
+                dato_cliente = {
+                id: cliente[0], 
+                usuario: cliente[1] + " " + cliente[2], 
+                estatus: cliente[3], 
+                rol: cliente[4],
+            };
+
+                $$('tablaDatos').add(dato_cliente)                   
+            });
+
+*/
+
+        });
+
+
+}
+
+
+var button = {
+  view:"button", 
+    id:"my_button", 
+    value:"Button", 
+    css:"webix_secondary", 
+    inputWidth:100,
+    click: registroProyecto
+}
 
 
 function registroProyecto(){
@@ -283,102 +459,27 @@ function registroProyecto(){
       view:"window",
       id:"my_win",
       name:"my_win",
-      head:"My Window",
+      head:"Registro de Evaluación",
       position:"center",
       width: 1000,
       height: 1000,
       body:{
         rows:[
-          form1
+          form1,
+          form_etapas,
+          button_submit
         ],
-  //template:"Some text",        
       }
-  }).show();
+  }).show(); 
+
 }
 
 
 webix.ui({     
-  id:'mylayout',               
+  id:`mylayout`,               
   type:"space",
     rows:[
-     button
+      button
     ]
  });
-
-
-
-
-/*
- function altaCliente(){
-
-
-    var form_name = $$('formAlta').getValues().nombre;
-    var form_last = $$('formAlta').getValues().apellido;
-    var form_estatus = $$('formAlta').getValues().estatus;
-    var form_rol = $$('formAlta').getValues().rol;
-
-   // console.log(form_name);
-
-    webix.ajax()
-    .post("../clientes/altaClientes",{name:form_name, last:form_last, estatus:form_estatus, rol:form_rol})
-    .then(function(data){
-        let res = data.text()
-       
-       if(res=='00'){             
-        webix.alert('ALTA EXITOSA',"alert-warning");
-
-       }else{
-        webix.alert('ALTA NO EXITOSA',"alert-warning"); 
-       }
-
-
-    })
-
-
-
-
- }*/
-
-
-
-
-
-/*
-webix.ui({  
-  button
-
-
-
-  	view:"form",
-      id: 'formAlta',
-    scroll:false,
-  	width:300,
-  	elements:[
-        { view:"text", label:"Nombre", name:'nombre'},
-
-        { view:"text", label:"Apellido", name:'apellido'},
-
-        { view:"select", label:"Estatus", name:'estatus',options:[
-            {id:'ACTIVO', value:'ACTIVO'},
-            {id:'INACTIVO', value:'INACTIVO'}
-        ]},
-
-        { view:"select", label:"Rol", name:'rol',options: [
-          {id:'ADMIN', value:'ADMIN'},
-          {id:'USER', value:'USER'}
-        ]},
-
-        { margin:5, cols:[
-            { view:"button", click:'altaCliente', label:"Alta" , type:"form" }
-        
-        ]}
-  	]
-
-
-
-
-});
-
-*/
-
 </script>
