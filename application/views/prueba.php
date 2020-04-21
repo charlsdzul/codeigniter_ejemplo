@@ -3,25 +3,33 @@
 
 
 
-var form1 = {
+
+var formulario_1 = 
+{
   view:"form", 
-  name:`form1`,
-  id:`form1`,
+  name:`formulario_1`,
+  id:`formulario_1`,
   elements: 
   [
     { 
       rows:
       [ 
-        { template:"<b>Información General</b>", type:"section" },
-        {
-          cols:
-          [ 
-            { width:300,
-              view:"select", 
-              name:`ciudad`,
-              label:"Ciudad",     
-              value:1, 
-              options:"../prueba/getciudades"  //URL de controlador. GET no necesita enviar parametro
+        { template:"<b>Información General</b>", type:"section" }, // INFORMACIÓN GENERAL
+        { 
+          cols: 
+          [ // CIUDAD, FECHA, HORRA LLEGADA, HORA SALIDA
+
+            { view:"combo",
+              width:300,
+              name:'ciudad',
+              label:'Ciudad',
+              placeholder:'Selecciona ciudad',
+              id:'ciudad', 
+              options:{ view:"suggest",               
+                        body:{ view:"list", 
+                        url:"../prueba/getciudadessinaloa",                    
+                      }
+              },
             },
             { view:"datepicker",name:`fecha`, label:"Fecha", width:200, labelWidth:50},
             { view:"datepicker", name:`hora_llegada`,label:"Hora llegada", width:200, labelWidth:90,type:"time",stringResult:true },
@@ -29,113 +37,115 @@ var form1 = {
           ]
         },
         {
-          cols:
-          [ 
+          cols:  
+          [ //VIVIENDA COTIZADA, VENDEDOR
             {view:"text",name:`vivienda_cotizada`, label:"Vivienda Cotizada", labelWidth:120 },
             {view:"text",label:"Vendedor", name:`vendedor` },
           ]         
         },
         {
           cols:
-          [ 
-            { view:"text",label:"Auditor", name:`auditor`,},
+          [ // AUDITOR, AUDITOR EDAD
+            { view:"text",label:"Auditor", name:`auditor`,
+            on:{
+              
+            }},
             { view:"text", label:"Edad (auditor)",name:`auditor_edad`, inputWidth:150, Width:100, labelWidth:100},
             
           ]
         },
 
-        { template:"<b>Información General del Desarrollo</b>", type:"section" },
+        { template:"<b>Información del Desarrollo</b>", type:"section" }, //INFORMACIÓN DEL DESARROLLO
 
 
         {
           cols:
-          [ 
+          [ // DESAROLLO, DESARROLLADORA
             { 
-              view:"select",
-              name:`desarrollo_nombre_comercial_desarrollo`,
-              label:"Nombre Comercial del Desarrollo",
-              labelWidth:225,
-              value:1, 
-              options:"../prueba/getdesarrollos" 
+              view:"combo",
+              name:'desarrollo_nombre_comercial_desarrollo',
+              label:'Desarrollo',
+              //placeholder:'Selecciona ciudad',
+              id:'desarrollo_nombre_comercial_desarrollo', 
+              options:{ view:"suggest",               
+                        body:{ view:"list", 
+                        url:"../prueba/getdesarrollos",                    
+                      }
+              },
             },
             { 
-              view:"select",
-              name:`desarrollo_nombre_empresa_desarroladora`,
-              label:"Empresa Desarrolladora",    
-              labelWidth:175, 
-              value:1, 
-              options:"../prueba/getconstructoras" 
+              view:"combo",
+              name:'desarrollo_nombre_empresa_desarroladora',
+              label:'Desarrollo',
+              //placeholder:'Selecciona ciudad',
+              id:'desarrollo_nombre_empresa_desarroladora', 
+              options:{ view:"suggest",               
+                        body:{ view:"list", 
+                        url:"../prueba/getconstructoras",                    
+                      }
+              },
             },
+
+
           ]
         },
 
         {
           cols:
-          [ 
-            { 
-              view:"select",name:`desarrollo_ciudad`, id:`desarrollo_ciudad`,label:"Ciudad",     value:1, options:"../prueba/getciudades",
-              on:{
-                onChange:function(){
-                  var desarrollo_ciudad = $$(`desarrollo_ciudad`).getValue()
-                  webix.ajax()
-                  .get("../prueba/getestado",{desarrollo_ciudad: desarrollo_ciudad})
-                  .then(function(data){
-                      let res = data.text()   
-                      $$(`desarrollo_estado`).setValue(res)
-                  }) 
-                }
+          [ // CIUDAD, ESTADO, COLONUA
+            { view:"combo",
+              name:'desarrollo_ciudad',
+              label:'Ciudad',
+              placeholder:'Selecciona',
+              id:'desarrollo_ciudad', 
+              options:{ view:"suggest",               
+                        body:{ view:"list", 
+                        url:"../prueba/getciudadessinaloa",                    
+                      }
+              },
+            },
+            { view:"text",name:`desarrollo_estado`, id:`desarrollo_estado`,label:"Estado", disabled:true},
+            { view:"combo",
+              name:'desarrollo_colonia',
+              label:'Colonia',
+              placeholder:'Selecciona',
+              disabled:true,
+              id:'desarrollo_colonia', 
+              options:{ view:"suggest",               
+                        body:{ view:"list", 
+                        url:"../prueba/getColoniasSinaloa",                    
+                      }
+              },
+            },
+            { view:"combo",
+              name:'desarollo_cp',
+                id:'desarollo_cp', 
+                disabled:true,
+                placeholder:'Selecciona',
+                label:'CP',
+              options:{ view:"suggest",               
+                        body:{ view:"list", 
+                       // url:"../prueba/getcodigopostalsinaloa" ,                    
+                      }
               }
-            },  
-            { view:"text",name:`desarrollo_estado`, id:`desarrollo_estado`,label:"Estado", value:``, disabled:true }       ,
-            { 
-              view:"select",
-              name:`desarrollo_colonia`,
-              id:`desarrollo_colonia`,
-              label:"Colonia",
-              value:1, 
-              options: "../prueba/getColoniasSinaloa" ,
-              on:{
-                onChange:function(){
-
-                var desarrollo_colonia = $$(`desarrollo_colonia`).getValue()
-
-                  webix.ajax()
-                  .get("../prueba/getcp",{desarrollo_colonia: desarrollo_colonia})
-                  .then(function(data){
-                      let res = data.text()   
-                      console.log(res) 
-                      $$(`desarrollo_cp`).setValue(res)
-
-                  })
-                }
-              }             
-
-            },
+            }
           ]
         },
 
         {
           cols:
-          [ 
+          [ // CALLE, NO EXTERIOR, NO INTERIOR, ETAPAS PLANEADAS
             { view:"text",name:`desarrollo_calle`, label:"Calle",width:400,},
             { view:"text",name:`desarrollo_numero_exterior`,label:"Exterior",inputWidth:150},
             { view:"text",name:`desarrollo_numero_interior`,label:"Interior",inputWidth:150}, 
-            { 
-              view:"select",              
-              name:`desarrollo_cp`,
-              id:`desarrollo_cp`,
-              label:"CP", 
-              labelWidth:50,   
-              value:`81476`, //Correspondiente a Col "1 de mayo " 
-              options:"../prueba/getcodigopostalsinaloa"  
-            }
-      
+
+
           ]
         },
 
         {
           cols:
-          [            
+          [ // PLAN MAESTRO, IMAGEN PLAN MAESTRO            
             { 
               view:"select",name:`desarrollo_plan_maestro`,label:"Plan Maestro",     value:1, options:[
               { "id":1, "value":"SI" },
@@ -153,7 +163,7 @@ var form1 = {
         },
         {
           cols:
-          [  
+          [   //ZONA, ESTATOS DEL DESARROLLO, ETAPAS PLANEADAS
             { view:"select",name:`desarrollo_zona`,label:"Zona",     value:1, options:"../prueba/getzonas" }, 
             {
               view:`select`,
@@ -190,25 +200,25 @@ var form1 = {
               ],
               on:{
                 onChange:function(etapas){
-                  var etapas_seleccionadas = $$(`form1`).getValues().etapas_seleccionadas
+                  var etapas_seleccionadas = $$(`formulario_1`).getValues().etapas_seleccionadas
                   var etapas_seleccionadas_2 = parseInt(etapas_seleccionadas) + 1
                   console.log(etapas_seleccionadas_2)
 
-                  var form_etapas = $$(`form_etapas`);
+                  var formulario_etapas = $$(`formulario_etapas`);
 
-                  form_etapas.removeView(`etapas_accordion-1`);
-                  form_etapas.removeView(`etapas_accordion-2`);
-                  form_etapas.removeView(`etapas_accordion-3`);
-                  form_etapas.removeView(`etapas_accordion-4`);
-                  form_etapas.removeView(`etapas_accordion-5`);
-                  form_etapas.removeView(`etapas_accordion-6`);
-                  form_etapas.removeView(`etapas_accordion-7`);
-                  form_etapas.removeView(`etapas_accordion-8`);
-                  form_etapas.removeView(`etapas_accordion-9`);
-                  form_etapas.removeView(`etapas_accordion-10`);
+                  formulario_etapas.removeView(`etapas_accordion-1`);
+                  formulario_etapas.removeView(`etapas_accordion-2`);
+                  formulario_etapas.removeView(`etapas_accordion-3`);
+                  formulario_etapas.removeView(`etapas_accordion-4`);
+                  formulario_etapas.removeView(`etapas_accordion-5`);
+                  formulario_etapas.removeView(`etapas_accordion-6`);
+                  formulario_etapas.removeView(`etapas_accordion-7`);
+                  formulario_etapas.removeView(`etapas_accordion-8`);
+                  formulario_etapas.removeView(`etapas_accordion-9`);
+                  formulario_etapas.removeView(`etapas_accordion-10`);
 
                     for (let index = 1; index < (etapas_seleccionadas_2); index++) {
-                      form_etapas.addView(
+                      formulario_etapas.addView(
                         {
                           view:`accordion`,
                           name:`etapas_accordion-${index}`,
@@ -222,8 +232,8 @@ var form1 = {
                                     header:`Etapa ${index}`, 
                                     body: {
                                     view:`form`,
-                                    id:`form_etapas-${index}`,
-                                    name:`form_etapas-${index}`,
+                                    id:`formulario_etapas-${index}`,
+                                    name:`formulario_etapas-${index}`,
                                     elements:
                                     [
                                       {
@@ -298,10 +308,209 @@ var form1 = {
   ]
 }
 
-var form_etapas = {
+var form2 =
+{
+  view: 'form',
+  name:'form2',
+  id:'form2',
+  elements:[
+      {
+        rows:
+        [
+          {template: '<b>Información técnica del desarrollo<b>', type:'section'},
+          {
+            cols:[
+              {
+                view:'select',
+                name:'desarrollo_acceso',
+                label:'Acceso',
+                value:1,
+                options:[
+                  { "id":1, "value":"Vigilancia" },
+                  { "id":2, "value":"Caseta" },
+                  { "id":3, "value":"Abierto" },
+                ]
+              },
+
+
+           /*   {
+                view:'form',
+                name:'form_prototipos',
+               // label:'Acceso',
+              //  value:1,
+                elements:[{template: '<b>Información técnica del desarrollo<b>', type:'section'},]
+              },*/
+            ]
+          }
+        ]
+
+      }
+  ]
+
+
+}
+
+var form3= 
+{  
+          view: 'form',
+          name:'form3',
+          id:'form3', 
+          elements:[
+            {
+              rows:[
+                {template: '<b>Información técnica del desarrollo</b>', type:'section'},
+                {
+                  cols:
+                  [
+                    { view:'select',
+                      name:'desarrollo_acceso',
+                      label:'Acceso',
+                      value:1,
+                      options:[
+                        { "id":1, "value":"Vigilancia" },
+                        { "id":2, "value":"Caseta" },
+                        { "id":3, "value":"Abierto" },
+                      ]
+                    },
+                    { view:'select',
+                      name:'desarrollo_prototipos_numero',
+                      id:'desarrollo_prototipos_numero',
+                      label:'Prototipos',
+                      value:1,
+                      options:[
+                        { "id":1, "value":"1" },
+                        { "id":2, "value":"2" },
+                        { "id":3, "value":"3" },
+                        { "id":4, "value":"4" },
+                        { "id":5, "value":"5" },
+                        { "id":6, "value":"6" },
+                        { "id":7, "value":"7" },
+                        { "id":8, "value":"8" },
+                      ],
+                      on:{
+                        onChange:function(){
+                         
+                          var desarrollo_prototipos_numero= $$('form3').getValues().desarrollo_prototipos_numero                          
+                          console.log(desarrollo_prototipos_numero)
+                          var form_protipos = $$('form_protipos')
+                          var accordion_prototipos = $$('accordion_prototipos')
+                          console.log(accordion_prototipos)
+
+
+                          accordion_prototipos.removeView(form_protipos);
+
+                          accordion_prototipos.addView(
+                          /*  { view:`accordion`,
+                              name:`accordion_prototipos`,
+                              id:`accordion_prototipos`,
+                              multi:true,
+                              collapsed:true,
+                                rows:
+                                    [                       
+                                      { header:`Información de Prototipos`, 
+                                        body:*/
+                                        {  view:`form`,
+                                                id:`form_protipos`,
+                                                name:`form_protipos+1`,
+                                                elements:
+                                                  [
+                                                    {
+                                                      rows:
+                                                      [
+                                                        {  
+                                                          cols: 
+                                                          [ 
+                                                            {view:'label', label:'Protipo 1 ', width:150},
+                                                            {view:'text', label:'Nombre:' },
+                                                            {view:'select', label:'Tipo:', value:1,
+                                                              options:[
+                                                                {'id':1, 'value':'Casa'},
+                                                                {'id':2, 'value':'Departamento'}
+                                                              ]}
+                                                          ] 
+                                                        },
+
+
+                                                        /*
+                                                        {  
+                                                          cols: 
+                                                          [ 
+                                                            {view:'label', label:'Protipo 2 ', width:150},
+                                                            {view:'text', label:'Nombre:' },
+                                                            {view:'select', label:'Tipo:', value:1,
+                                                              options:[
+                                                                {'id':1, 'value':'Casa'},
+                                                                {'id':2, 'value':'Departamento'}
+                                                              ]}
+                                                          ] 
+                                                        }*/
+                                                   
+                                                   
+                                                    ]
+                                                    }
+                                                    
+                                                  ]
+                                              },
+                               //       }
+                              //                            
+                            //        ] 
+                         //   }, 
+                          )
+                        }
+                      }
+                    },   
+                  ]
+                },
+
+             /*   { view:"form", 
+                  name:`form_acordion`,
+                  id:`form_acordion`, 
+                  elements: 
+                  [*/
+                    { view:`accordion`,
+                      name:`accordion_prototipos`,
+                      id:`accordion_prototipos`,
+                      multi:true,
+                      collapsed:true,
+                      rows:
+                        [                       
+                          { header:`Información de Prototipos`, 
+                            body: {  view:`form`,
+                                      id:`form_protipos`,
+                                      name:`form_protipos`,
+                                      elements:
+                                        [
+                                        //  { view:'text', label:'Nombre:', labelWidth:200  }
+                                        ]
+                                    } 
+                          }                                                  
+                        ]            
+                    }
+                    
+
+             //     ]
+              //  }
+
+
+              ]
+            }
+          ]
+}
+
+var form4 =  
+{  
+          view: 'form',
+          name:'form4',
+          id:'form4', 
+          elements:[{template: '<b>Información de Prototipos</b>', type:'section'},
+            {view:'text'}
+          ]
+}
+
+var formulario_etapas = {
   view:"form", 
-  name:`form_etapas`,
-  id:`form_etapas`, 
+  name:`formulario_etapas`,
+  id:`formulario_etapas`, 
   elements: [
           {
                           view:`accordion`,
@@ -316,8 +525,8 @@ var form_etapas = {
                                     header:`Etapa 1`, 
                                     body: {
                                     view:`form`,
-                                    id:`form_etapas-1`,
-                                    name:`form_etapas-1`,
+                                    id:`formulario_etapas-1`,
+                                    name:`formulario_etapas-1`,
                                     elements:
                                     [
                                       {
@@ -382,36 +591,32 @@ var form_etapas = {
 }
 
 
-var button_submit={
-  view:"button", 
+var button_submit= 
+  {
+    view:"button", 
     id:"button_submit", 
     value:"Guardar", 
     css:"webix_primary", 
     inputWidth:100,
     align:"center",
     click: guardarProyecto
-}
-
-
-
-
-
+  }
 
 function guardarProyecto(){
 
   //Obtiene valores del formulario 1. Es necesario que los inputs tengan el atributo 'name'
-  form1_datos = $$(`form1`).getValues();
-  console.log(form1_datos)
+  formulario_1_datos = $$(`formulario_1`).getValues();
+  console.log(formulario_1_datos)
 
   var numero_etapas = 0;
   var etapas_datos = {}; //Array para almacenar arrays de cada etapa
 
   // Obtiene los valores de cada form/acordion de cada etapa
   for (let index = 0; index<10; index++) {
-    form_etapa = $$(`form_etapas-${index+1}`)
+    form_etapa = $$(`formulario_etapas-${index+1}`)
 
     if(form_etapa){
-      form_etapa = $$(`form_etapas-${index+1}`).getValues();
+      form_etapa = $$(`formulario_etapas-${index+1}`).getValues();
       console.log(form_etapa);
       etapas_datos[`etapa_${numero_etapas+1}`] = form_etapa        
       numero_etapas++; //Cuenta el número de etapas (dato para enviar a servidor)
@@ -419,15 +624,17 @@ function guardarProyecto(){
 
   } 
 
-  console.log(numero_etapas)
+  //console.log(numero_etapas)
 
 
-  webix.ajax().post("../prueba/saveDesarrollo", { form1_datos:form1_datos, etapas_datos:etapas_datos,numero_etapas:numero_etapas }).then(function(data){
-           let res = JSON.parse(data.text())
+          webix.ajax().post("../prueba/saveDesarrollo", { formulario_1_datos:formulario_1_datos, etapas_datos:etapas_datos,numero_etapas:numero_etapas }).then(function(data){
+           
+           // let res = JSON.parse(data.text())
 
-           console.dir(res)
-            //var dato_cliente;
-/*
+         //  console.log(res)
+          });
+      
+             /*
             res.forEach(cliente => {
                 dato_cliente = {
                 id: cliente[0], 
@@ -437,47 +644,182 @@ function guardarProyecto(){
             };
 
                 $$('tablaDatos').add(dato_cliente)                   
-            });
-*/
+            });*/
 
 
-        });
+        
 
 }
 
 
-var button = {
-  view:"button", 
+var button = 
+  {
+    view:"button", 
     id:"my_button", 
-    value:"Button", 
+    value:"Registro", 
     css:"webix_secondary", 
     inputWidth:100,
     click: registroProyecto
-}
+  }
 
 
-function registroProyecto(){
+function registroProyecto(){  
+
 
   var window = webix.ui({
       view:"window",
       id:"my_win",
       name:"my_win",
+   
       head:"Registro de Evaluación",
+      close:true,
       position:"center",
-      width: 1000,
-      height: 1000,
+      modal:true,
+     // width: 1000,
+     // height: 1000,
       body:{
         rows:[
-          form1,
-          form_etapas,
+         // form3,
+         // form4,
+          //form2,
+          formulario_1,
+          formulario_etapas,
           button_submit
         ],
       }
   }).show(); 
 
-}
+
+  /*
+  ************** EVENTOS PARA VIEW 'desarollo_cp'
+  */
+  $$('desarollo_cp').attachEvent('onChange',function(){   
+
+    /** Obtiene CP seleccionado */
+    var cp_selected = $$('desarollo_cp').getText()
+
+      if(cp_selected!=''){ 
+
+        /***** Obtiene COLONIAS segpun el CP seleccionado. Asigna las colonias a  'desarrollo_colonia' */
+          webix.ajax() 
+                .get("../prueba/getcolonias",{cp_selected: cp_selected})
+                .then(function(data){
+                    let res = JSON.parse(data.text())   
+                    $$(`desarrollo_colonia`).define("options", res);
+                    $$("desarrollo_colonia").refresh();
+                })
+
+        /***** Obtiene el ESTADO segpun el CP seleccionado. Asigna el ESTADO a  'desarrollo_estado' */
+            webix.ajax()
+                  .get("../prueba/getestadoporcp",{cp_selected: cp_selected})
+                  .then(function(data){
+                      let res = data.text()            
+                        if(res){
+                          $$(`desarrollo_estado`).setValue(res)
+                        }else{
+                          $$(`desarrollo_estado`).setValue('')
+                        }
+                  })
+
+        /***** Obtiene CIUDAD segpun el CP seleccionado. Asigna CIUDAD a  'desarrollo_ciudad' */
+        webix.ajax()
+                  .get("../prueba/getciudadesporcp",{cp_selected: cp_selected})
+                  .then(function(data){
+                    let res = JSON.parse(data.text())           
+                        if(res){
+                          $$(`desarrollo_ciudad`).define("options", res);
+                          $$("desarrollo_ciudad").refresh();
+                          $$(`desarrollo_ciudad`).setValue('')
+                        }
+                  })
+    }
+  })
 
 
+  /*
+  ************** EVENTOS PARA VIEW 'desarrollo_colonia'
+  */
+  $$('desarrollo_colonia').attachEvent('onChange',function(){
+
+    /**Obtiene Colonia seleccionada */
+    var desarrollo_colonia = $$(`desarrollo_colonia`).getValue()
+    var desarrollo_ciudad = $$(`desarrollo_ciudad`).getValue()
+
+    /*********Obtiene CP de la colonia seleccionada. Asigna COLONIA a 'desarrollo_colonia' */
+      webix.ajax()
+            .get("../prueba/getcp",{desarrollo_colonia: desarrollo_colonia,desarrollo_ciudad:desarrollo_ciudad})
+            .then(function(data){
+              let res = data.text() 
+              console.log(res)  
+              $$(`desarollo_cp`).setValue(res)
+
+            })
+
+  })
+
+
+  /*
+  ************** EVENTOS PARA VIEW 'desarrollo_ciudad'
+  */
+  $$('desarrollo_ciudad').attachEvent('onChange',function(){
+
+    /**Obtiene Ciudad seleccionada */
+    var desarrollo_ciudad = $$(`desarrollo_ciudad`).getValue()
+
+    if(desarrollo_ciudad!=''){
+
+      /*********Obtiene ESTADO de la ciudad seleccionada. Asigna ESTADO a 'desarrollo_estado' */
+        webix.ajax()
+              .get("../prueba/getestado",{desarrollo_ciudad: desarrollo_ciudad})
+              .then(function(data){
+                let res = data.text()   
+                $$(`desarrollo_estado`).setValue(res)
+              }) 
+
+
+      /*********Obtiene CPs de la ciudad seleccionada. Asigna CPs  a 'desarrollo_cp' */
+      webix.ajax()
+              .get("../prueba/getcpsporciudad",{desarrollo_ciudad: desarrollo_ciudad})
+              .then(function(data){
+                let res = JSON.parse(data.text())  
+                console.dir(res)
+                if(res){
+                  $$(`desarollo_cp`).define("options", res);
+                  $$("desarollo_cp").refresh();
+                  $$("desarollo_cp").enable();
+                }else{
+                  $$(`desarollo_cp`).setValue('')
+                }
+              }) 
+
+
+      /*********Obtiene Colonias de la ciudad seleccionada. Asigna Colonias  a 'desarrollo_colonia' */
+      webix.ajax()
+              .get("../prueba/getcoloniasporciudad",{desarrollo_ciudad: desarrollo_ciudad})
+              .then(function(data){
+                let res = JSON.parse(data.text())  
+                console.dir(res)
+                if(res){
+                  $$(`desarrollo_colonia`).define("options", res);
+                  $$("desarrollo_colonia").refresh();
+                  $$("desarrollo_colonia").enable();
+                }else{
+                  $$(`desarollo_cp`).setValue('')
+                }
+              }) 
+
+
+
+    }
+
+  })
+
+
+} //Fin function registroProyecto
+
+
+
+/************ ui ************ */
 webix.ui({     
   id:`mylayout`,               
   type:"space",
@@ -485,4 +827,7 @@ webix.ui({
       button
     ]
  });
+
+ registroProyecto() // temporal para que aprezca l aventana al cargar
+
 </script>

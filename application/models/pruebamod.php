@@ -19,6 +19,19 @@ class PruebaMod extends CI_Model {
         return $ciudades;      
     }
 
+
+    function getCiudadesSinaloa($id_estado_sinaloa ){      
+        $this->db->select("ciudad");
+        $this->db->where('id_estado',$id_estado_sinaloa );
+        $res = $this->db->get('cat_ciudades');
+        $i = 0;
+        foreach ($res->result() as $row){
+            $ciudadesSinaloa[$i] = $row->ciudad;
+            $i++;
+        } 
+        return $ciudadesSinaloa;      
+    }
+
     function getDesarrollos(){      
         $this->db->select("nombre_desarrollo");
         $res = $this->db->get('cat_desarrollos');
@@ -75,6 +88,7 @@ class PruebaMod extends CI_Model {
             $cps_sinaloa[$i] = $row->cp;
             $i++;
         } 
+
         return $cps_sinaloa;      
     }
 
@@ -91,13 +105,171 @@ class PruebaMod extends CI_Model {
     
     }
 
+    function getEstadoPorCp($cp_selected){      
+        $this->db->select("*");
+        $this->db->where('cp', $cp_selected);
+        $id_estado = $this->db->get('cat_codigo_postal')->row()->id_esatdo; //ERROR DE NOMBRE EN BDD, MAL ESCRITO id_esatdo
 
-    function getCp($desarrollo_colonia){   
+        $this->db->select("*");
+        $this->db->where('id_estado',$id_estado);
+        $estadoPorCp = $this->db->get('cat_estados')->row()->estado;
+
+        echo $estadoPorCp;    
+    }
+
+    // Recibe CP y devuelve array de ciudades con ese CP
+    function getCiudadesPorCp($cp_selected){      
+        $this->db->select("*");
+        $this->db->where('cp', $cp_selected);
+        $id_estado = $this->db->get('cat_codigo_postal')->row()->id_esatdo; //ERROR DE NOMBRE EN BDD, MAL ESCRITO id_esatdo
+
+        $this->db->select("*");
+        $this->db->where('id_estado',$id_estado);
+        $res = $this->db->get('cat_ciudades');
+
+        $i = 0;
+        
+        foreach ($res->result() as $row){
+            $ciudadesPorCp[$i] = $row->ciudad;
+            $i++;
+        } 
+
+        return $ciudadesPorCp;  
+        //var_dump($ciudadesPorCp);
+    }
+
+
+
+
+    function getColoniasPorCiudad($desarrollo_ciudad){      
+        $this->db->select("*");
+        $this->db->where('ciudad', $desarrollo_ciudad);
+        $id_ciudad = $this->db->get('cat_ciudades')->row()->id_ciudad; 
+
+        
+        $this->db->select("*");
+        $this->db->where('id_ciudad',$id_ciudad);
+        $res = $this->db->get('cat_codigo_postal');
+
+        $i = 0;        
+        foreach ($res->result() as $row){
+            $coloniasPorCiudad[$i] = $row->colonia;
+            $i++;
+        } 
+
+        return $coloniasPorCiudad;  
+        //var_dump($ciudadesPorCp);
+
+        
+    }
+
+
+    function getCpsPorCiudad($desarrollo_ciudad){      
+        $this->db->select("*");
+        $this->db->where('ciudad', $desarrollo_ciudad);
+        $id_ciudad = $this->db->get('cat_ciudades')->row()->id_ciudad; 
+
+        
+        $this->db->select("*");
+        $this->db->where('id_ciudad',$id_ciudad);
+        $res = $this->db->get('cat_codigo_postal');
+
+        $i = 0;        
+        foreach ($res->result() as $row){
+            $cpsPorCiudad[$i] = $row->cp;
+            $i++;
+        } 
+
+        return $cpsPorCiudad;  
+        //var_dump($ciudadesPorCp);
+
+        
+    }
+
+
+
+
+
+
+
+
+/*
+    function getCiudadPorColonia($desarrollo_colonia){      
+
+        $this->db->select("*");
+        $this->db->where('cp', $cp_selected);
+        $id_estado = $this->db->get('cat_codigo_postal')->row()->id_esatdo; //ERROR DE NOMBRE EN BDD, MAL ESCRITO id_esatdo
+
+        $this->db->select("*");
+        $this->db->where('id_estado',$id_estado);
+        $estadoPorCp = $this->db->get('cat_estados')->row()->estado;
+
+        echo $estadoPorCp;
+    
+    }
+*/
+
+
+
+
+    function getCp($desarrollo_colonia, $desarrollo_ciudad){  
+
+        $this->db->select("*");
+        $this->db->where('ciudad',$desarrollo_ciudad);
+        $id_ciudad = $this->db->get('cat_ciudades')->row()->id_ciudad;  
+
+
         $this->db->select("*");
         $this->db->where('colonia',$desarrollo_colonia);
+        $this->db->where('id_ciudad',$id_ciudad);
         $codigo_postal = $this->db->get('cat_codigo_postal')->row()->cp;  
+
         echo $codigo_postal;    
     }
+
+
+
+    function getCpTyped($cp_ingresado){   
+        //Obtiene CP que inician con el número de cp ingreasado, no exacto
+        $this->db->select("*");
+        $this->db->like('cp', $cp_ingresado); //Obtiene los campos que inician que lo ingresado
+        $res = $this->db->get('cat_codigo_postal');  
+        $i = 0;
+
+            foreach ($res->result() as $row){
+                $cps[$i] = $row->cp;
+                $i++;
+            } 
+
+        $cps = array_unique($cps); //Remueve valores duplicados del array
+        //var_dump($cps);
+        return $cps;    
+    }
+
+
+
+
+
+
+
+    function getColonias($cp_selected){   
+        $this->db->select("*");
+        $this->db->where('cp',$cp_selected);      
+        $res = $this->db->get('cat_codigo_postal');
+        $i = 0;
+
+            foreach ($res->result() as $row){
+                $colonias_por_cp[$i] = $row->colonia;
+                $i++;
+            } 
+
+        return $colonias_por_cp;      
+    }
+
+
+
+
+
 
 
     function registroDesarrollo($datos_desarrollo){ 
