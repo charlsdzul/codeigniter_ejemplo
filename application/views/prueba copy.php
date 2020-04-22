@@ -1,59 +1,6 @@
 <script>
 
-/*
 
-var field_demo ={
-
-   view:"fieldset",
-   id:'field_c',
-   body: [
-     {view: "text", id:'g'},
-     {view: "text", id:'h'}
-   ]
-
-
-}
-
-
-var formulario_demo ={ 
-
-	view: "form",
-  id: "frm_nuevo_proyecto",
-  elements: [
-    {
-      view:"fieldset",
-      id:'field_a',
-      body: {  
-        rows:[
-          {view:'text', id:'a', label:'Input'},
-          {view:'text', id:'b', label:'Input'},
-          {view:'text', id:'c', label:'Input'},
-        ]
-      }
-    },
-    {
-      view:"fieldset",
-      id:'field_b',
-      body: {  
-        rows:[
-          {view:'text', id:'d', label:'Input'},
-          {view:'text', id:'e', label:'Input'},
-          {view:'text', id:'f', label:'Input',
-          click:function(){
-            console.log('cccc')
-
-            $$('field_a').webix.copy(field_demo)
-          }},
-        ]
-      }
-    },
-
-  ]
-
-}
-
-
-*/
 
 
 
@@ -89,7 +36,6 @@ var formulario_1 = {
 							view: "datepicker",
 							name: `fecha`,
 							label: "Fecha",
-							value: new Date(),
 							width: 200,
 							labelWidth: 50,
 						},
@@ -178,31 +124,7 @@ var formulario_1 = {
 
 				{
 					cols: [
-						// CALLE, NO EXTERIOR, NO INTERIOR
-						{
-							view: "text",
-							name: `desarrollo_calle`,
-							label: "Calle",
-							width: 400,
-						},
-						{
-							view: "text",
-							name: `desarrollo_numero_exterior`,
-							label: "Exterior",
-							inputWidth: 150,
-						},
-						{
-							view: "text",
-							name: `desarrollo_numero_interior`,
-							label: "Interior",
-							inputWidth: 150,
-						},
-					],
-				},
-
-				{
-					cols: [
-						// CIUDAD, ESTADO
+						// CIUDAD, ESTADO, COLONUA
 						{
 							view: "combo",
 							name: "desarrollo_ciudad",
@@ -224,13 +146,6 @@ var formulario_1 = {
 							label: "Estado",
 							disabled: true,
 						},
-					],
-				},
-
-				{
-					cols: [
-						// COLONIA, CP
-
 						{
 							view: "combo",
 							name: "desarrollo_colonia",
@@ -264,17 +179,29 @@ var formulario_1 = {
 					],
 				},
 
-
-
-
-
-
-
-
-
-
-
-
+				{
+					cols: [
+						// CALLE, NO EXTERIOR, NO INTERIOR, ETAPAS PLANEADAS
+						{
+							view: "text",
+							name: `desarrollo_calle`,
+							label: "Calle",
+							width: 400,
+						},
+						{
+							view: "text",
+							name: `desarrollo_numero_exterior`,
+							label: "Exterior",
+							inputWidth: 150,
+						},
+						{
+							view: "text",
+							name: `desarrollo_numero_interior`,
+							label: "Interior",
+							inputWidth: 150,
+						},
+					],
+				},
 
 				{
 					cols: [
@@ -283,8 +210,6 @@ var formulario_1 = {
 							view: "select",
 							name: `desarrollo_plan_maestro`,
 							label: "Plan Maestro",
-							labelWidth:200,
-							//width: 200,
 							value: 1,
 							options: [
 								{ id: 1, value: "SI" },
@@ -307,10 +232,21 @@ var formulario_1 = {
 							view: "select",
 							name: `desarrollo_zona`,
 							label: "Zona",
-							placeholder:'Selecciona Zona',
+							value: 1,
 							options: "..//prueba/getzonas",
 						},
-
+						{
+							view: `select`,
+							name: `desarrollo_estatus_desarrollo`,
+							label: `Estatus del desarrollo`,
+							labelWidth: 150,
+							options: [
+								{ id: 1, value: "Por iniciar" },
+								{ id: 2, value: "En Construcción" },
+								{ id: 3, value: "Construído" },
+								{ id: 4, value: "Terminado" },
+							],
+						},
 						{
 							view: "select",
 							name: `desarrollo_etapas_planeadas`,
@@ -324,7 +260,11 @@ var formulario_1 = {
 								{ id: 3, value: "3" },
 								{ id: 4, value: "4" },
 								{ id: 5, value: "5" },
-
+								{ id: 6, value: "6" },
+								{ id: 7, value: "7" },
+								{ id: 8, value: "8" },
+								{ id: 9, value: "9" },
+								{ id: 10, value: "10" },
 							],
 							on: {
 								onChange: function (etapas) {
@@ -341,6 +281,11 @@ var formulario_1 = {
 									formulario_etapas.removeView(`etapas_accordion-3`);
 									formulario_etapas.removeView(`etapas_accordion-4`);
 									formulario_etapas.removeView(`etapas_accordion-5`);
+									formulario_etapas.removeView(`etapas_accordion-6`);
+									formulario_etapas.removeView(`etapas_accordion-7`);
+									formulario_etapas.removeView(`etapas_accordion-8`);
+									formulario_etapas.removeView(`etapas_accordion-9`);
+									formulario_etapas.removeView(`etapas_accordion-10`);
 
 									for (let index = 1; index < etapas_seleccionadas_2; index++) {
 										formulario_etapas.addView({
@@ -664,22 +609,6 @@ var button_submit=
     click: guardarProyecto
   }
 
-
-  var button_exit= 
-  {
-    view:"button", 
-    id:"button_exit", 
-    value:"Salir", 
-    css:"webix_primary", 
-    inputWidth:100,
-    align:"center",
-    click: function(){
-
-
-	}
-  }
-
-
 function guardarProyecto(){
 
   //Obtiene valores del formulario 1. Es necesario que los inputs tengan el atributo 'name'
@@ -753,10 +682,8 @@ function guardarProyecto(){
 							// form4,
               formulario_1,
               formulario_etapas,
-              //formulario_2,							
-              button_submit,
-			  button_exit
-              //formulario_demo
+              formulario_2,							
+							button_submit,
 						],
 					},
 				})
@@ -894,7 +821,78 @@ function guardarProyecto(){
       });
       
 
-   
+      $('desarrollo_prototipos_numero').attachEvent('onChange', function()
+                        {
+                          console.log('asasas')
+                         
+                          var desarrollo_prototipos_numero= $$('formulario_2').getValues().desarrollo_prototipos_numero                          
+                          console.log(desarrollo_prototipos_numero)
+                          var form_protipos = $$('form_protipos')
+                          var accordion_prototipos = $$('accordion_prototipos')
+                          console.log(accordion_prototipos)
+
+
+                          accordion_prototipos.removeView(form_protipos);
+
+                          accordion_prototipos.addView(
+                          /*  { view:`accordion`,
+                              name:`accordion_prototipos`,
+                              id:`accordion_prototipos`,
+                              multi:true,
+                              collapsed:true,
+                                rows:
+                                    [                       
+                                      { header:`Información de Prototipos`, 
+                                        body:*/
+                                        {  view:`form`,
+                                                id:`form_protipos`,
+                                                name:`form_protipos+1`,
+                                                elements:
+                                                  [
+                                                    {
+                                                      rows:
+                                                      [
+                                                        {  
+                                                          cols: 
+                                                          [ 
+                                                            {view:'label', label:'Protipo 1 ', width:150},
+                                                            {view:'text', label:'Nombre:' },
+                                                            {view:'select', label:'Tipo:', value:1,
+                                                              options:[
+                                                                {'id':1, 'value':'Casa'},
+                                                                {'id':2, 'value':'Departamento'}
+                                                              ]}
+                                                          ] 
+                                                        },
+
+
+                                                        /*
+                                                        {  
+                                                          cols: 
+                                                          [ 
+                                                            {view:'label', label:'Protipo 2 ', width:150},
+                                                            {view:'text', label:'Nombre:' },
+                                                            {view:'select', label:'Tipo:', value:1,
+                                                              options:[
+                                                                {'id':1, 'value':'Casa'},
+                                                                {'id':2, 'value':'Departamento'}
+                                                              ]}
+                                                          ] 
+                                                        }*/
+                                                   
+                                                   
+                                                    ]
+                                                    }
+                                                    
+                                                  ]
+                                              },
+                               //       }
+                              //                            
+                            //        ] 
+                         //   }, 
+                          )
+                        }
+    )
 
 
 

@@ -297,8 +297,8 @@ class PruebaMod extends CI_Model {
         $this->db->set('desarrollo_plan_maestro_imagen',$datos_desarrollo->desarrollo_plan_maestro_imagen);
         $this->db->set('desarrollo_zona',$datos_desarrollo->desarrollo_zona);
         $this->db->set('desarrollo_estatus_desarrollo',$datos_desarrollo->desarrollo_estatus_desarrollo);
-        $this->db->set('status',0);
-        //$this->db->set('etapas_seleccionadas',$datos_desarrollo->desarrollo_etapas_planeadas);
+       
+        $this->db->set('desarrollo_etapas_planeadas',$datos_desarrollo->desarrollo_etapas_planeadas);
         $this->db->insert('cat_registro_desarrollos');   
         $insert_id = $this->db->insert_id();
         return  $insert_id;
@@ -312,7 +312,7 @@ class PruebaMod extends CI_Model {
         $this->db->set('planeado_casas',$datos_desarrollo_etapas->etapa_1->etapa1_planeado_casas);
         $this->db->set('planeado_deptos',$datos_desarrollo_etapas->etapa_1->etapa1_planeado_deptos);
         $this->db->set('planeado_terrenos',$datos_desarrollo_etapas->etapa_1->etapa1_planeado_terrenos);
-        $this->db->set('sta',0);
+        //$this->db->set('sta',0);
         
         $this->db->set('vendido',$datos_desarrollo_etapas->etapa_1->etapa1_vendido);
         $this->db->set('vendido_casas',$datos_desarrollo_etapas->etapa_1->etapa1_vendido_terrenos);
