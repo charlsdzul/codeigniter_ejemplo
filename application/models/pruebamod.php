@@ -296,9 +296,13 @@ class PruebaMod extends CI_Model {
         $this->db->set('desarrollo_plan_maestro',$datos_desarrollo->desarrollo_plan_maestro);
         $this->db->set('desarrollo_plan_maestro_imagen',$datos_desarrollo->desarrollo_plan_maestro_imagen);
         $this->db->set('desarrollo_zona',$datos_desarrollo->desarrollo_zona);
-        $this->db->set('desarrollo_estatus_desarrollo',$datos_desarrollo->desarrollo_estatus_desarrollo);
-       
+        $this->db->set('desarrollo_estatus_desarrollo',$datos_desarrollo->desarrollo_estatus_desarrollo);       
         $this->db->set('desarrollo_etapas_planeadas',$datos_desarrollo->desarrollo_etapas_planeadas);
+        $this->db->set('desarrollo_plan_maestro_descripcion',$datos_desarrollo->desarrollo_plan_maestro_descripcion);
+        $this->db->set('desarrollo_promedio_ventas_mensuales',$datos_desarrollo->desarrollo_plan_maestro_descripcion);
+
+
+        
         $this->db->insert('cat_registro_desarrollos');   
         $insert_id = $this->db->insert_id();
         return  $insert_id;

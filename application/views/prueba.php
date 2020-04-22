@@ -1,74 +1,15 @@
 <script>
 
-/*
-
-var field_demo ={
-
-   view:"fieldset",
-   id:'field_c',
-   body: [
-     {view: "text", id:'g'},
-     {view: "text", id:'h'}
-   ]
-
-
-}
-
-
-var formulario_demo ={ 
-
+const FORM_INFORMACION_GENERAL = {
 	view: "form",
-  id: "frm_nuevo_proyecto",
-  elements: [
-    {
-      view:"fieldset",
-      id:'field_a',
-      body: {  
-        rows:[
-          {view:'text', id:'a', label:'Input'},
-          {view:'text', id:'b', label:'Input'},
-          {view:'text', id:'c', label:'Input'},
-        ]
-      }
-    },
-    {
-      view:"fieldset",
-      id:'field_b',
-      body: {  
-        rows:[
-          {view:'text', id:'d', label:'Input'},
-          {view:'text', id:'e', label:'Input'},
-          {view:'text', id:'f', label:'Input',
-          click:function(){
-            console.log('cccc')
-
-            $$('field_a').webix.copy(field_demo)
-          }},
-        ]
-      }
-    },
-
-  ]
-
-}
-
-
-*/
-
-
-
-var formulario_1 = {
-	view: "form",
-	name: `formulario_1`,
-	id: `formulario_1`,
+	name: `FORM_INFORMACION_GENERAL`,
+	id: `FORM_INFORMACION_GENERAL`,
 	elements: [
 		{
 			rows: [
 				{ template: "<b>Información General</b>", type: "section" }, // INFORMACIÓN GENERAL
 				{
-					cols: [
-						// CIUDAD, FECHA, HORRA LLEGADA, HORA SALIDA
-
+					cols: [// CIUDAD, FECHA, HORRA LLEGADA, HORA SALIDA
 						{
 							view: "combo",
 							width: 300,
@@ -82,7 +23,6 @@ var formulario_1 = {
 									view: "list",
 									url: "..//prueba/getciudadessinaloa",
 								},
-								//url: "..//prueba/getciudadessinaloa",
 							},
 						},
 						{
@@ -114,8 +54,7 @@ var formulario_1 = {
 					],
 				},
 				{
-					cols: [
-						//VIVIENDA COTIZADA, VENDEDOR
+					cols: [//VIVIENDA COTIZADA, VENDEDOR
 						{
 							view: "text",
 							name: `vivienda_cotizada`,
@@ -126,8 +65,7 @@ var formulario_1 = {
 					],
 				},
 				{
-					cols: [
-						// AUDITOR, AUDITOR EDAD
+					cols: [ // AUDITOR, AUDITOR EDAD
 						{ view: "text", label: "Auditor", name: `auditor`, on: {} },
 						{
 							view: "text",
@@ -136,6 +74,7 @@ var formulario_1 = {
 							inputWidth: 150,
 							Width: 100,
 							labelWidth: 100,
+
 						},
 					],
 				},
@@ -143,8 +82,7 @@ var formulario_1 = {
 				{ template: "<b>Información del Desarrollo</b>", type: "section" }, //INFORMACIÓN DEL DESARROLLO
 
 				{
-					cols: [
-						// DESAROLLO, DESARROLLADORA
+					cols: [// DESAROLLO, DESARROLLADORA
 						{
 							view: "combo",
 							name: "desarrollo_nombre_comercial_desarrollo",
@@ -177,14 +115,13 @@ var formulario_1 = {
 				},
 
 				{
-					cols: [
-						// CALLE, NO EXTERIOR, NO INTERIOR
+					cols: [// CALLE, NO EXTERIOR, NO INTERIOR
 						{
 							view: "text",
 							name: `desarrollo_calle`,
 							label: "Calle",
-							width: 400,
-						},
+							width: 450,
+						},{},
 						{
 							view: "text",
 							name: `desarrollo_numero_exterior`,
@@ -201,8 +138,7 @@ var formulario_1 = {
 				},
 
 				{
-					cols: [
-						// CIUDAD, ESTADO
+					cols: [// CIUDAD, ESTADO
 						{
 							view: "combo",
 							name: "desarrollo_ciudad",
@@ -228,8 +164,7 @@ var formulario_1 = {
 				},
 
 				{
-					cols: [
-						// COLONIA, CP
+					cols: [// COLONIA, CP
 
 						{
 							view: "combo",
@@ -264,59 +199,69 @@ var formulario_1 = {
 					],
 				},
 
-
-
-
-
-
-
-
-
-
-
-
-
 				{
-					cols: [
-						// PLAN MAESTRO, IMAGEN PLAN MAESTRO
+					cols: [// PLAN MAESTRO, IMAGEN PLAN MAESTRO, DESCRIPCIÓN
+						{
+							view:'label',
+							label:'Plan Maestro'
+						},
 						{
 							view: "select",
 							name: `desarrollo_plan_maestro`,
-							label: "Plan Maestro",
-							labelWidth:200,
-							//width: 200,
+							inputWidth:70,
 							value: 1,
 							options: [
 								{ id: 1, value: "SI" },
 								{ id: 2, value: "NO" },
 							],
+						},{
+							view:'label',
+							label:'Imagen de Plan Maestro'
 						},
+						
 						{
 							view: "uploader",
 							name: `desarrollo_plan_maestro_imagen`,
 							id: "uploader_1",
-							width: 200,
-							value: "Upload file",
+							value: "Subir",
 						},
+
 					],
 				},
+
+				{ //DESCRIP PLAN MAESTRO
+					view:'label',
+					label:'Descrición de Plan Maestro'
+				},
+				
 				{
-					cols: [
-						//ZONA, ESTATOS DEL DESARROLLO, ETAPAS PLANEADAS
+					view:"textarea", 
+					name: `desarrollo_plan_maestro_descripcion`,
+					labelAlign:"right", 
+					height:100, 
+				},
+
+				{
+					cols: [ //ZONA, ETAPAS PLANEADAS, PROMEDIO
+						{
+							view:'label',
+							label:'Zona'
+						},
 						{
 							view: "select",
 							name: `desarrollo_zona`,
-							label: "Zona",
 							placeholder:'Selecciona Zona',
 							options: "..//prueba/getzonas",
+						},{},
+						{
+							view:'label',
+							label:'Etapas Planeadas'
 						},
-
 						{
 							view: "select",
-							name: `desarrollo_etapas_planeadas`,
-							label: "Etapas Planeadas",
-							labelWidth: 125,
-							width: 250,
+							name: `desarrollo_etapas_planeadas`,	
+							id: `desarrollo_etapas_planeadas`,					
+							width: 100,
 							value: 1,
 							options: [
 								{ id: 1, value: "1" },
@@ -324,26 +269,25 @@ var formulario_1 = {
 								{ id: 3, value: "3" },
 								{ id: 4, value: "4" },
 								{ id: 5, value: "5" },
-
 							],
 							on: {
 								onChange: function (etapas) {
-									var etapas_seleccionadas = $$(`formulario_1`).getValues()
+									var etapas_seleccionadas = $$(`FORM_INFORMACION_GENERAL`).getValues()
 										.desarrollo_etapas_planeadas;
 									var etapas_seleccionadas_2 =
 										parseInt(etapas_seleccionadas) + 1;
 									console.log(etapas_seleccionadas_2);
 
-									var formulario_etapas = $$(`formulario_etapas`);
+									var FORM_ETAPAS = $$(`FORM_ETAPAS`);
 
-									formulario_etapas.removeView(`etapas_accordion-1`);
-									formulario_etapas.removeView(`etapas_accordion-2`);
-									formulario_etapas.removeView(`etapas_accordion-3`);
-									formulario_etapas.removeView(`etapas_accordion-4`);
-									formulario_etapas.removeView(`etapas_accordion-5`);
+									FORM_ETAPAS.removeView(`etapas_accordion-1`);
+									FORM_ETAPAS.removeView(`etapas_accordion-2`);
+									FORM_ETAPAS.removeView(`etapas_accordion-3`);
+									FORM_ETAPAS.removeView(`etapas_accordion-4`);
+									FORM_ETAPAS.removeView(`etapas_accordion-5`);
 
 									for (let index = 1; index < etapas_seleccionadas_2; index++) {
-										formulario_etapas.addView({
+										FORM_ETAPAS.addView({
 											view: `accordion`,
 											name: `etapas_accordion-${index}`,
 											id: `etapas_accordion-${index}`,
@@ -355,8 +299,8 @@ var formulario_1 = {
 													header: `Etapa ${index}`,
 													body: {
 														view: `form`,
-														id: `formulario_etapas-${index}`,
-														name: `formulario_etapas-${index}`,
+														id: `FORM_ETAPAS-${index}`,
+														name: `FORM_ETAPAS-${index}`,
 														elements: [
 															{
 																rows: [
@@ -473,21 +417,110 @@ var formulario_1 = {
 									}
 								},
 							},
+						},{},
+						{
+							view:'label',
+							label:'Prom. Ventas Mensuales'
+						},
+						{
+							view: "text",
+							name: `desarrollo_promedio_ventas_mensuales`,	
+							id: `desarrollo_promedio_ventas_mensuales`,						
 						},
 					],
 				},
 			],
-		},
-  ]
+		},		
+  	]
 };
 
+var FORM_ETAPAS = {
+  view:"form", 
+  name:`FORM_ETAPAS`,
+  id:`FORM_ETAPAS`, 
+  elements: [
+          {
+                          view:`accordion`,
+                          name:`etapas_accordion-1`,
+                          id:`etapas_accordion-1`,
+                          multi:true,
+                          collapsed:true,
+                          css:{"background":"#ccc !important"},
+                          rows:
+                                [                       
+                                  {
+                                    header:`Etapa 1`, 
+                                    body: {
+                                    view:`form`,
+                                    id:`FORM_ETAPAS-1`,
+                                    name:`FORM_ETAPAS-1`,
+                                    elements:
+                                    [
+                                      {
+                                        rows:[
+                                        {
+                                          cols:[
+                                            { view:"text", label:"Planeado", name:`etapa1_planeado`},
+                                            { view:"text", label:"Casas", name:`etapa1_planeado_casas`},
+                                            { view:"text", label:"Deptos", name:`etapa1_planeado_deptos`},
+                                            { view:"text", label:"Terrenos", name:`etapa1_planeado_terrenos`}
+                                          ]
+                                        },
+                                        {
+                                          cols:[
+                                            { view:"text", label:"Vendido", name:`etapa1_vendido`},
+                                            { view:"text", label:"Casas", name:`etapa1_vendido_casas`},
+                                            { view:"text", label:"Deptos", name:`etapa1_vendido_deptos`},
+                                            { view:"text", label:"Terrenos", name:`etapa1_vendido_terrenos`}
+                                          ]
+                                        },
+                                        {
+                                          cols:[
+                                            { view:"text", label:"En Venta", name:`etapa1_venta`},
+                                            { view:"text", label:"Casas", name:`etapa1_venta_casas`},
+                                            { view:"text", label:"Deptos", name:`etapa1_venta_deptos`},
+                                            { view:"text", label:"Terrenos", name:`etapa1_venta_terrenos`}
+                                          ]
+                                        },
+                                        {
+                                          cols:[
+                                            {  view:"select",label:"Estatus de la etapa", name:`etapa1_estatus`,value:1, labelWidth:150,options:[
+                                              { "id":1, "value":"Por iniciar" },
+                                              { "id":2, "value":"En Construcción" },
+                                              { "id":3, "value":"Construído" },
+                                              { "id":4, "value":"Terminado" },
+                                              ] 
+                                            },
+                                            {
+                                                view:"select",label:"Tipo de fraccionamiento", name:`etapa1_tipo`, labelWidth:175, value:1, options:[
+                                              { "id":1, "value":"Privado" },
+                                              { "id":2, "value":"Semiprivado" },
+                                              { "id":3, "value":"Abierto" },
+                                              { "id":4, "value":"Duplex" },
+                                              ] 
+                                            },
+                                            {}
+                                          ]
+                                        }
+                                      ]
+                                      }
+                                    ]
+                                    } 
+                                  }
+                                                  
+                                ]                  
 
+            
+        
+          }
+  ]
+  
+}
 
-var formulario_2= 
-{  
+var FORM_INFORMACION_TECNICA= {  
           view: 'form',
-          name:'formulario_2',
-          id:'formulario_2', 
+          name:'FORM_INFORMACION_TECNICA',
+          id:'FORM_INFORMACION_TECNICA', 
           elements:[
             {
               rows:[
@@ -559,131 +592,102 @@ var formulario_2=
           ]
 }
 
-var form4 =  
-{  
-          view: 'form',
-          name:'form4',
-          id:'form4', 
-          elements:[{template: '<b>Información de Prototipos</b>', type:'section'},
-            {view:'text'}
-          ]
-}
-
-var formulario_etapas = {
-  view:"form", 
-  name:`formulario_etapas`,
-  id:`formulario_etapas`, 
-  elements: [
-          {
-                          view:`accordion`,
-                          name:`etapas_accordion-1`,
-                          id:`etapas_accordion-1`,
-                          multi:true,
-                          collapsed:true,
-                          css:{"background":"#ccc !important"},
-                          rows:
-                                [                       
-                                  {
-                                    header:`Etapa 1`, 
-                                    body: {
-                                    view:`form`,
-                                    id:`formulario_etapas-1`,
-                                    name:`formulario_etapas-1`,
-                                    elements:
-                                    [
-                                      {
-                                        rows:[
-                                        {
-                                          cols:[
-                                            { view:"text", label:"Planeado", name:`etapa1_planeado`},
-                                            { view:"text", label:"Casas", name:`etapa1_planeado_casas`},
-                                            { view:"text", label:"Deptos", name:`etapa1_planeado_deptos`},
-                                            { view:"text", label:"Terrenos", name:`etapa1_planeado_terrenos`}
-                                          ]
-                                        },
-                                        {
-                                          cols:[
-                                            { view:"text", label:"Vendido", name:`etapa1_vendido`},
-                                            { view:"text", label:"Casas", name:`etapa1_vendido_casas`},
-                                            { view:"text", label:"Deptos", name:`etapa1_vendido_deptos`},
-                                            { view:"text", label:"Terrenos", name:`etapa1_vendido_terrenos`}
-                                          ]
-                                        },
-                                        {
-                                          cols:[
-                                            { view:"text", label:"En Venta", name:`etapa1_venta`},
-                                            { view:"text", label:"Casas", name:`etapa1_venta_casas`},
-                                            { view:"text", label:"Deptos", name:`etapa1_venta_deptos`},
-                                            { view:"text", label:"Terrenos", name:`etapa1_venta_terrenos`}
-                                          ]
-                                        },
-                                        {
-                                          cols:[
-                                            {  view:"select",label:"Estatus de la etapa", name:`etapa1_estatus`,value:1, labelWidth:150,options:[
-                                              { "id":1, "value":"Por iniciar" },
-                                              { "id":2, "value":"En Construcción" },
-                                              { "id":3, "value":"Construído" },
-                                              { "id":4, "value":"Terminado" },
-                                              ] 
-                                            },
-                                            {
-                                                view:"select",label:"Tipo de fraccionamiento", name:`etapa1_tipo`, labelWidth:175, value:1, options:[
-                                              { "id":1, "value":"Privado" },
-                                              { "id":2, "value":"Semiprivado" },
-                                              { "id":3, "value":"Abierto" },
-                                              { "id":4, "value":"Duplex" },
-                                              ] 
-                                            },
-                                            {}
-                                          ]
-                                        }
-                                      ]
-                                      }
-                                    ]
-                                    } 
-                                  }
-                                                  
-                                ]                  
-
-            
-        
-          }
-  ]
-  
-}
-
-
-var button_submit= 
-  {
+var boton_guardar = {
     view:"button", 
-    id:"button_submit", 
+    id:"boton_guardar", 
     value:"Guardar", 
     css:"webix_primary", 
     inputWidth:100,
     align:"center",
     click: guardarProyecto
-  }
+}
 
-
-  var button_exit= 
-  {
+var boton_salir= {
     view:"button", 
-    id:"button_exit", 
+    id:"boton_salir", 
     value:"Salir", 
     css:"webix_primary", 
     inputWidth:100,
     align:"center",
-    click: function(){
-
-
+	click:function(){
+		$$('ventana_formulario').hide()
 	}
-  }
+}
+
+const TABVIEW_MENU_EVALUACION = {
+	view: "tabview",
+	cells: [
+				{	header: "Información General",
+					body: {
+						rows:[
+								FORM_INFORMACION_GENERAL,
+								FORM_ETAPAS
+						]
+					}															
+				},
+
+														{
+														header: "Desarrollo",
+														body: {
+															id: "listView",
+															view: "text", 
+															id:'b'											
+															}
+														},
+
+														{
+														header: "Información Técnica ",
+														body: {
+																id: "listView",
+																view: "text", 
+																id:'c'
+															}											
+														},
+
+														{
+														header: "Información Financiera",
+														body: {
+																id: "listView",
+																view: "text", 
+																id:'d'
+															}
+														},
+
+														{
+														header: "Velocidad de Venta",
+														body: {
+																id: "listView",
+																view: "text", 
+																id:'e'
+															}
+														},
+
+														{
+														header: "Atención",
+														body: {
+																id: "listView",
+																view: "text", 
+																id:'f'
+															}
+														},
+
+														{
+														header: "Experiencia de compra",
+														body: {
+																id: "listView",
+																view: "text", 
+																id:'g'
+															}
+														},
+	]
+}	
+
 
 
 function guardarProyecto(){
 
   //Obtiene valores del formulario 1. Es necesario que los inputs tengan el atributo 'name'
-  formulario_1_datos = $$(`formulario_1`).getValues();
+  formulario_1_datos = $$(`FORM_INFORMACION_GENERAL`).getValues();
   console.log(formulario_1_datos)
 
   var numero_etapas = 0;
@@ -691,10 +695,10 @@ function guardarProyecto(){
 
   // Obtiene los valores de cada form/acordion de cada etapa
   for (let index = 0; index<10; index++) {
-    form_etapa = $$(`formulario_etapas-${index+1}`)
+    form_etapa = $$(`FORM_ETAPAS-${index+1}`)
 
     if(form_etapa){
-      form_etapa = $$(`formulario_etapas-${index+1}`).getValues();
+      form_etapa = $$(`FORM_ETAPAS-${index+1}`).getValues();
       console.log(form_etapa);
       etapas_datos[`etapa_${numero_etapas+1}`] = form_etapa        
       numero_etapas++; //Cuenta el número de etapas (dato para enviar a servidor)
@@ -737,34 +741,36 @@ function guardarProyecto(){
 		//Carlos Dzul.
 
 		function registroProyecto() {
+
+			
 			var window = webix
 				.ui({
 					view: "window",
-					id: "my_win",
-					name: "my_win",
+					id: "ventana_formulario",
+					name: "ventana_formulario",
 					head: "Registro de Evaluación",
-					close: true,
 					position: "center",
-					//modal: true,
-					// width: 1000,
-					// height: 1000,
-					body: {
-						rows: [
-							// form4,
-              formulario_1,
-              formulario_etapas,
-              //formulario_2,							
-              button_submit,
-			  button_exit
-              //formulario_demo
-						],
-					},
+					modal: true,
+					body:{
+						rows:[
+							TABVIEW_MENU_EVALUACION,
+							{
+								cols:[
+									boton_guardar,
+							  		boton_salir
+								]
+							}
+						]						
+					}
 				})
 				.show();
 
+
+/** FUNCIONES DEL BLOCK DE NOTAS */
+	  
 			/*
 			 ************** EVENTOS PARA VIEW 'desarrollo_cp'
-			 */
+			 */	    
 			$$("desarrollo_cp").attachEvent("onChange", function () {
 				/** Obtiene CP seleccionado */
 				var cp_selected = $$("desarrollo_cp").getText();
@@ -812,7 +818,8 @@ function guardarProyecto(){
 							}
 						});
 				}
-			});
+			}); 
+        
 
 			/*
 			 ************** EVENTOS PARA VIEW 'desarrollo_colonia'
@@ -834,7 +841,7 @@ function guardarProyecto(){
 						console.log(res);
 						$$(`desarrollo_cp`).setValue(res);
 					});
-			});
+			}); 
 
 			/*
 			 ************** EVENTOS PARA VIEW 'desarrollo_ciudad'
@@ -891,8 +898,7 @@ function guardarProyecto(){
 							}
 						});
 				}
-      });
-      
+      		});       
 
    
 
